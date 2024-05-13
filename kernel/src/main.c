@@ -3,6 +3,7 @@
 #include <common/stdbool.h>
 #include <common/stdint.h>
 #include <common/log.h>
+#include <common/logo.h>
 
 extern uint8_t stext;
 extern uint8_t etext;
@@ -22,12 +23,13 @@ void clear_bss(void) {
 }
 
 void display_info(void) {
-    printf("Hello, world!\n");
-    errorf("text\t[0x%08x-0x%08x]", &stext, &etext);
-    warnf("rodata\t[0x%08x-0x%08x]", &srodata, &erodata);
+    printf("\33[1;35m%s\33[0m", logo);
+    infof("Hello, Yori OS!");
+    infof("text\t[0x%08x-0x%08x]", &stext, &etext);
+    infof("rodata\t[0x%08x-0x%08x]", &srodata, &erodata);
     infof("data\t[0x%08x-0x%08x]", &sdata, &edata);
-    debugf("bss\t[0x%08x-0x%08x]", &sbss, &ebss);
-    tracef("stack\t[0x%08x-0x%08x]", &sstack, &estack);
+    infof("bss\t[0x%08x-0x%08x]", &sbss, &ebss);
+    infof("stack\t[0x%08x-0x%08x]", &sstack, &estack);
 }
 
 void main(void) {
