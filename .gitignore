@@ -1,0 +1,8 @@
+/*/
+/*
+
+!/.gitignore
+!/opensbi
+!/kernel/
+!/user/
+!/Makefile
