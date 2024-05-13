@@ -1,6 +1,6 @@
 #include <sbi/sbi.h>
 
 void _putchar(char character) {
-  console_putchar(character);
+  sbi_console_putchar(character);
 }
 

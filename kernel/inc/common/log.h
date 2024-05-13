@@ -56,60 +56,60 @@ enum LOG_COLOR {
 
 
 #if defined(USE_LOG_ERROR)
-#define errorf(fmt, ...)                                     \
-	do {                                                     \
+#define errorf(fmt, ...)                                      \
+	do {                                                      \
 		printf("\x1b[%dm[%s] " fmt "\x1b[0m\n", RED, "ERROR", \
-		       ##__VA_ARGS__);                               \
+		    	##__VA_ARGS__);                               \
 	} while (0)
 #else
 #define errorf(fmt, ...)
 #endif // USE_LOG_ERROR
 
 #if defined(USE_LOG_WARN)
-#define warnf(fmt, ...)                                        \
-	do {                                                       \
+#define warnf(fmt, ...)                                          \
+	do {                                                         \
 		printf("\x1b[%dm[%s] " fmt "\x1b[0m\n", YELLOW, " WARN", \
-		       ##__VA_ARGS__);                                 \
+		    	##__VA_ARGS__);                                  \
 	} while (0)
 #else
 #define warnf(fmt, ...)
 #endif // USE_LOG_WARN
 
 #if defined(USE_LOG_INFO)
-#define infof(fmt, ...)                                      \
-	do {                                                     \
+#define infof(fmt, ...)                                        \
+	do {                                                       \
 		printf("\x1b[%dm[%s] " fmt "\x1b[0m\n", BLUE, " INFO", \
-		       ##__VA_ARGS__);                               \
+		    	##__VA_ARGS__);                                \
 	} while (0)
 #else
 #define infof(fmt, ...)
 #endif // USE_LOG_INFO
 
 #if defined(USE_LOG_DEBUG)
-#define debugf(fmt, ...)                                       \
-	do {                                                       \
+#define debugf(fmt, ...)                                        \
+	do {                                                        \
 		printf("\x1b[%dm[%s] " fmt "\x1b[0m\n", GREEN, "DEBUG", \
-		       ##__VA_ARGS__);                                 \
+		    	##__VA_ARGS__);                                 \
 	} while (0)
 #else
 #define debugf(fmt, ...)
 #endif // USE_LOG_DEBUG
 
 #if defined(USE_LOG_TRACE)
-#define tracef(fmt, ...)                                      \
-	do {                                                      \
+#define tracef(fmt, ...)                                       \
+	do {                                                       \
 		printf("\x1b[%dm[%s] " fmt "\x1b[0m\n", GRAY, "TRACE", \
-		       ##__VA_ARGS__);                                \
+		    	##__VA_ARGS__);                                \
 	} while (0)
 #else
 #define tracef(fmt, ...)
 #endif // USE_LOG_TRACE
 
-#define panic(fmt, ...)                                     \
-	do {                                                    \
-		printf("\x1b[%dm[%s] %s:%d: " fmt "\x1b[0m\n", RED, \
-		       "PANIC", __FILE__, __LINE__, ##__VA_ARGS__); \
-		shutdown();                                         \
+#define panic(fmt, ...)                                      \
+	do {                                                     \
+		printf("\x1b[%dm[%s] %s:%d: " fmt "\x1b[0m\n", RED,  \
+		    	"PANIC", __FILE__, __LINE__, ##__VA_ARGS__); \
+		sbi_shutdown();                                      \
 	} while (0)
 
 
