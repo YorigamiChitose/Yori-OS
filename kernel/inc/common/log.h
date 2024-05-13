@@ -105,11 +105,11 @@ enum LOG_COLOR {
 #define tracef(fmt, ...)
 #endif // USE_LOG_TRACE
 
-#define panic(fmt, ...)                                      \
-	do {                                                     \
-		printf("\x1b[%dm[%s] %s:%d: " fmt "\x1b[0m\n", RED,  \
-		    	"PANIC", __FILE__, __LINE__, ##__VA_ARGS__); \
-		sbi_shutdown();                                      \
+#define panic(fmt, ...)                                           \
+	do {                                                          \
+		printf("\x1b[%dm[%s] %s:%d: " fmt "\x1b[0m\n", RED,       \
+		    	"PANIC", __FILE__, __LINE__, ##__VA_ARGS__);      \
+		sbi_system_reset(SRST_T_SHUTDOWN, SRST_R_SYSTEM_FAILURE); \
 	} while (0)
 
 

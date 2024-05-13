@@ -33,5 +33,6 @@ void display_info(void) {
 void main(void) {
     clear_bss();
     display_info();
-    panic("ALL DONE");
+    // panic("ALL DONE");
+    sbi_system_reset(SRST_T_SHUTDOWN, SRST_R_NO_REASON);
 }
