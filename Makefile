@@ -1,24 +1,24 @@
 OPENSBI = opensbi/build/platform/generic/firmware/fw_jump
 KERNEL = kernel/build/kernel
 QEMU = qemu-system-riscv64
-QEMU_ARG = -M virt -bios $(OPENSBI).elf -device loader,file=$(KERNEL).bin,addr=0x80200000 -nographic
+QEMU_ARG = -machine virt -bios $(OPENSBI).bin -device loader,file=$(KERNEL).bin,addr=0x80200000 -nographic
 MAKEFLAGS += --no-print-directory
 
 
-$(OPENSBI).elf:
+$(OPENSBI).bin:
 	@make -C opensbi CROSS_COMPILE=riscv64-linux-gnu- PLATFORM=generic FW_JUMP_ADDR=0x80200000
 
-$(KERNEL).elf:
+$(KERNEL).bin:
 	@cd kernel && make
 
 clean:
 	@cd kernel && make clean
 # @cd opensbi && make clean
 
-run: $(OPENSBI).elf $(KERNEL).elf
+run: $(OPENSBI).bin $(KERNEL).bin
 	@$(QEMU) $(QEMU_ARG)
 
-gdbserver: $(OPENSBI).elf $(KERNEL).elf
+gdbserver: $(OPENSBI).bin $(KERNEL).bin
 	@$(QEMU) $(QEMU_ARG) -s -S
 
 gdbclient:
