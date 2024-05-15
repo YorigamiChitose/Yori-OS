@@ -1,7 +1,7 @@
 #include <sbi/sbi.h>
 #include <common/printf.h>
-#include <common/stdbool.h>
-#include <common/stdint.h>
+#include <std/stdbool.h>
+#include <std/stdint.h>
 #include <common/log.h>
 #include <common/logo.h>
 

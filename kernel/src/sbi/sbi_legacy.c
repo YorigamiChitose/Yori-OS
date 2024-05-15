@@ -1,5 +1,5 @@
 #include <sbi/sbi.h>
-#include <common/stdint.h>
+#include <std/stdint.h>
 #include <common/printf.h>
 
 uint64_t sbi_call_legacy_0(uint64_t EID);

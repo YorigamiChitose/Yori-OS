@@ -30,8 +30,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <common/stdbool.h>
-#include <common/stdint.h>
+#include <std/stdbool.h>
+#include <std/stdint.h>
 
 #include <common/printf.h>
 
@@ -114,7 +114,7 @@
 
 // import float.h for DBL_MAX
 #if defined(PRINTF_SUPPORT_FLOAT)
-#include <common/float.h>
+#include <std/float.h>
 #endif
 
 

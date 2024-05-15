@@ -1,5 +1,5 @@
 #include <sbi/sbi.h>
-#include <common/stdint.h>
+#include <std/stdint.h>
 
 inline void sbi_call_0(uint64_t EID, uint64_t FID, struct sbiret* ret) {
     register uint64_t a0 asm("a0") = 0;

@@ -32,8 +32,8 @@
 #ifndef __PRINTF_H__
 #define __PRINTF_H__
 
-#include <common/stdarg.h>
-#include <common/stddef.h>
+#include <std/stdarg.h>
+#include <std/stddef.h>
 
 
 #ifdef __cplusplus

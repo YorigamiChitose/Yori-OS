@@ -24,4 +24,4 @@ gdbserver: $(OPENSBI).bin $(KERNEL).bin
 gdbclient:
 	@gdb-multiarch -ex 'file $(KERNEL).elf' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234' --init-command .gdbinit
 
-.PHONY: $(KERNEL).elf clean
+.PHONY: $(KERNEL).bin clean

@@ -1,6 +1,6 @@
 #ifndef __SBI_H__
 #define __SBI_H__
-#include <common/stdint.h>
+#include <std/stdint.h>
 
 /* sbi */
 struct sbiret {
