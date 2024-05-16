@@ -1,5 +1,5 @@
 # Tools
-TOOLPREFIX  = riscv64-linux-gnu-
+TOOLPREFIX  = riscv64-unknown-elf-
 CC          = $(TOOLPREFIX)gcc
 AS          = $(TOOLPREFIX)as
 LD          = $(TOOLPREFIX)ld
@@ -24,7 +24,7 @@ CFLAGS      += -I$(INC_DIR)
 AS_CFLAGS   ?= $()
 LDFLAGS     = -z max-page-size=4096 -Tsrc/other/linker.ld
 
-SRCS  = $(shell find $(SRC_DIR) -name "*.c" -type f) $(SRC_DIR)/other/entry.s
+SRCS  = $(shell find $(SRC_DIR) -name "*.c" -type f) $(shell find $(SRC_DIR) -name "*.s" -type f)
 OBJS  = $(patsubst $(SRC_DIR)/%.c,$(TEMP_DIR)/%.o,$(filter %.c,$(SRCS))) \
     	$(patsubst $(SRC_DIR)/%.s,$(TEMP_DIR)/%.o,$(filter %.s,$(SRCS)))
 
@@ -41,18 +41,18 @@ all: $(TARGET).elf
 
 $(TEMP_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@echo "$(COLOR_Y)CC$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, %, $@)$(COLOR_NO)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(COLOR_Y)CC$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, %, $@)$(COLOR_NO)"
 
 $(TEMP_DIR)/%.o: $(SRC_DIR)/%.s
 	@mkdir -p $(dir $@)
+	@$(CC) $(AS_CFLAGS) -c $< -o $@
 	@echo "$(COLOR_Y)AS$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, %, $@)$(COLOR_NO)"
-	@$(AS) $(AS_CFLAGS) -c $< -o $@
 
 $(TARGET).elf: $(OBJS)
 	@mkdir -p $(dir $@)
-	@echo "$(COLOR_G)LD$(COLOR_NO)\t$(COLOR_G)$(patsubst $(BUILD_DIR)/%, %, $@)$(COLOR_NO)"
 	@$(LD) $(LDFLAGS) -o $(TARGET).elf $(OBJS)
+	@echo "$(COLOR_G)LD$(COLOR_NO)\t$(COLOR_G)$(patsubst $(BUILD_DIR)/%, %, $@)$(COLOR_NO)"
 	@$(OBJCOPY) -O binary $(TARGET).elf $(TARGET).bin
 	@$(OBJDUMP) -d $(TARGET).elf > $(TARGET).txt
 
