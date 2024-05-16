@@ -1,7 +1,8 @@
     .section .text.entry
     .globl _start
+    .extern _estack
 _start:
-    la sp, boot_stack_top
+    la sp, _estack
     call main
 
     .section .kernel_stack

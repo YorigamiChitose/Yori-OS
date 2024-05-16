@@ -52,7 +52,8 @@ SECTIONS
         *(.kernel_stack)
     } : stack
     estack = .;
-
+    PROVIDE(_estack = .);
+    
     ekernel = .;
 
     /DISCARD/ : {
