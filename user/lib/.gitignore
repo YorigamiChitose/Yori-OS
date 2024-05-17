@@ -1,0 +1,8 @@
+/*/
+/*
+
+!/.gitignore
+!/libos/
+!/Makefile
+/libos/build
+/libos/lib

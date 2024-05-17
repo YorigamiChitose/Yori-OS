@@ -1,3 +1,5 @@
+#include "loader/loader.h"
+#include "sys/syscall.h"
 #include <sbi/sbi.h>
 #include <common/printf.h>
 #include <std/stdbool.h>
@@ -18,7 +20,7 @@ extern uint8_t ebss;
 
 void clear_bss(void) {
     for (uint8_t *pointer = &sbss; pointer < &ebss; pointer++) {
-        pointer = 0;
+        *pointer = 0;
     }
 }
 
@@ -34,7 +36,10 @@ void display_info(void) {
 
 void main(void) {
     clear_bss();
+    trap_init();
     display_info();
-    // panic("ALL DONE");
+    new_user_context();
+    
+    // panic("Should not reach here");
     sbi_system_reset(SRST_T_SHUTDOWN, SRST_R_NO_REASON);
 }

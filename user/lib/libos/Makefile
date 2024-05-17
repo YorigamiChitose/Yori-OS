@@ -1,0 +1,2 @@
+ROOT = $(PWD)
+include ../Makefile

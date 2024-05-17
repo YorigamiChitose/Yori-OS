@@ -36,4 +36,4 @@ gdbclient:
 		-ex 'target remote localhost:1234' \
 		--init-command .gdbinit
 
-.PHONY: $(KERNEL).bin clean
+.PHONY: $(KERNEL).bin $(USER).bin clean
