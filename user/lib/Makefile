@@ -16,7 +16,6 @@ SRC_DIR     = $(PWD)/src
 INC_DIR     = $(PWD)/inc
 
 # Other
-CFLAGS  += -std=gnu11
 CFLAGS  += -fno-pic -march=rv64g -mcmodel=medany
 CFLAGS  += -fno-asynchronous-unwind-tables -fno-builtin -fno-stack-protector
 CFLAGS  += -MMD -static -nostdlib -ffreestanding
@@ -40,17 +39,17 @@ all: $(TARGET).a
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) -std=gnu11 $(CFLAGS) -c $< -o $@
 	@echo "$(COLOR_Y)CC$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
 	@mkdir -p $(dir $@)
-	@$(CC) $(AS_CFLAGS) -c $< -o $@
+	@$(CC) -std=gnu11 $(AS_CFLAGS) -c $< -o $@
 	@echo "$(COLOR_Y)AS$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.S
 	@mkdir -p $(dir $@)
-	@$(CC) $(AS_CFLAGS) -c $< -o $@
+	@$(CC) -std=gnu11 $(AS_CFLAGS) -c $< -o $@
 	@echo "$(COLOR_Y)AS$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp

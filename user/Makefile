@@ -25,7 +25,7 @@ CFLAGS      += $(patsubst %, -I%, $(INC_DIR))
 AS_CFLAGS   ?= $()
 LDFLAGS      = -z max-page-size=4096 -Tsrc/other/linker.ld
 
-ALL_LIB = libos libtest
+ALL_LIB = libos libc
 
 LIBS  = $(foreach lib, $(ALL_LIB), $(LIB_DIR)/$(lib)/lib/$(lib).a)
 SRCS  = $(shell find $(SRC_DIR) -name "*.c" -type f) $(shell find $(SRC_DIR) -name "*.s" -type f)

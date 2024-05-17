@@ -1,4 +1,5 @@
 ROOT = $(PWD)
+TOOLPREFIX = riscv64-linux-gnu-
+CFLAGS += -DNO_FLOATING_POINT -DHAVE_INITFINI_ARRAY -U_FORTIFY_SOURCE
 CFLAGS += -I$(ROOT)/inc
-CFLAGS += -I$(ROOT)/../libos/inc
 include ../Makefile
