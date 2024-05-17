@@ -1,6 +1,7 @@
 # Tools
-TOOLPREFIX  = riscv64-unknown-elf-
+TOOLPREFIX ?= riscv64-unknown-elf-
 CC          = $(TOOLPREFIX)gcc
+CXX         = $(TOOLPREFIX)g++
 AS          = $(TOOLPREFIX)as
 AR          = $(TOOLPREFIX)ar
 LD          = $(TOOLPREFIX)ld
@@ -15,14 +16,15 @@ SRC_DIR     = $(PWD)/src
 INC_DIR     = $(PWD)/inc
 
 # Other
-CFLAGS  += -Wall -Werror -no-pie -ggdb
-CFLAGS  += -MD -static
-CFLAGS  += -nostdlib
-CFLAGS  += -mcmodel=medany -mstrict-align -march=rv64gc -mno-relax
-CFLAGS  += -ffreestanding -fno-common -fno-stack-protector -fno-omit-frame-pointer -fno-pie -fno-asynchronous-unwind-tables
-
-SRCS  = $(shell find $(SRC_DIR) -name "*.c" -type f) $(shell find $(SRC_DIR) -name "*.s" -type f)
+CFLAGS  += -std=gnu11
+CFLAGS  += -fno-pic -march=rv64g -mcmodel=medany
+CFLAGS  += -fno-asynchronous-unwind-tables -fno-builtin -fno-stack-protector
+CFLAGS  += -MMD -static -nostdlib -ffreestanding
+CXXFLAGS += $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
+SRCS  = $(shell find $(SRC_DIR) -name "*.c" -type f) $(shell find $(SRC_DIR) -name "*.s" -type f) $(shell find $(SRC_DIR) -name "*.cpp" -type f) $(shell find $(SRC_DIR) -name "*.S" -type f)
 OBJS  = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(filter %.c,$(SRCS))) \
+		$(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(filter %.cpp,$(SRCS))) \
+		$(patsubst $(SRC_DIR)/%.S,$(BUILD_DIR)/%.o,$(filter %.S,$(SRCS))) \
     	$(patsubst $(SRC_DIR)/%.s,$(BUILD_DIR)/%.o,$(filter %.s,$(SRCS)))
 
 TARGET = $(LIB_DIR)/$(notdir $(ROOT))
@@ -45,6 +47,16 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
 	@mkdir -p $(dir $@)
 	@$(CC) $(AS_CFLAGS) -c $< -o $@
 	@echo "$(COLOR_Y)AS$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.S
+	@mkdir -p $(dir $@)
+	@$(CC) $(AS_CFLAGS) -c $< -o $@
+	@echo "$(COLOR_Y)AS$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
+	@echo "$(COLOR_Y)CXX$(COLOR_NO)\t$(COLOR_R)$(patsubst $(BUILD_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
 
 $(TARGET).a: $(OBJS)
 	@mkdir -p $(dir $@)

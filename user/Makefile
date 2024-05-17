@@ -12,7 +12,7 @@ ROOT      = $(PWD)
 BUILD_DIR = $(ROOT)/build
 TEMP_DIR  = $(BUILD_DIR)/temp
 SRC_DIR   = $(PWD)/src
-INC_DIR   = $(PWD)/inc $(LIB_DIR)/libc/include
+INC_DIR   = $(PWD)/inc $(foreach lib, $(ALL_LIB), $(LIB_DIR)/$(lib)/inc)
 LIB_DIR   = $(PWD)/lib
 
 # Other
@@ -25,8 +25,9 @@ CFLAGS      += $(patsubst %, -I%, $(INC_DIR))
 AS_CFLAGS   ?= $()
 LDFLAGS      = -z max-page-size=4096 -Tsrc/other/linker.ld
 
-ALL_LIB = libos
-LIBS  = $(LIB_DIR)/libos/lib/libos.a
+ALL_LIB = libos libtest
+
+LIBS  = $(foreach lib, $(ALL_LIB), $(LIB_DIR)/$(lib)/lib/$(lib).a)
 SRCS  = $(shell find $(SRC_DIR) -name "*.c" -type f) $(shell find $(SRC_DIR) -name "*.s" -type f)
 OBJS  = $(patsubst $(SRC_DIR)/%.c,$(TEMP_DIR)/%.o,$(filter %.c,$(SRCS))) \
     	$(patsubst $(SRC_DIR)/%.s,$(TEMP_DIR)/%.o,$(filter %.s,$(SRCS)))
@@ -63,7 +64,7 @@ $(TEMP_DIR)/%.o: $(SRC_DIR)/%.s
 $(TARGET).elf: $(OBJS) libs
 	@mkdir -p $(dir $@)
 	@echo "$(COLOR_G)LD$(COLOR_NO)\t$(COLOR_G)$(patsubst $(BUILD_DIR)/%, user: %, $@)$(COLOR_NO)"
-	@$(LD) $(LDFLAGS) -o $(TARGET).elf $(OBJS) $(LIBS)
+	@$(LD) $(LDFLAGS) -o $(TARGET).elf $(OBJS) $(LIBS) $(LIBS)
 	@$(OBJCOPY) -O binary $(TARGET).elf $(TARGET).bin
 	@$(OBJDUMP) -d $(TARGET).elf > $(TARGET).txt
 

@@ -3,6 +3,12 @@
 
 !/.gitignore
 !/libos/
+!/libc/
+!/libtest/
 !/Makefile
 /libos/build
 /libos/lib
+/libc/build
+/libc/lib
+/libtest/build
+/libtest/lib

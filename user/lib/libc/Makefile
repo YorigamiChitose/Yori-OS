@@ -1,4 +1,4 @@
 ROOT = $(PWD)
-CFLAGS += -I$(ROOT)/../libtest/inc
 CFLAGS += -I$(ROOT)/inc
+CFLAGS += -I$(ROOT)/../libos/inc
 include ../Makefile

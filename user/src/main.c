@@ -1,8 +1,5 @@
-
+#include <stdio.h>
 int main(void) {
-    register long a7 asm("a7") = 0;
-    asm volatile("ecall" : :"r"(a7):"memory");
-    while (1) {
-    }
+    printf("Hello, world!\n");
     return 0;
 }

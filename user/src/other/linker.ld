@@ -45,8 +45,8 @@ SECTIONS
         *(.sbss .sbss.*)
     } : data
     ebss = .;
-    
     euser = .;
+    _end = .;
 
     /DISCARD/ : {
         *(.eh_frame)
