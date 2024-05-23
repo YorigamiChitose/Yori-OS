@@ -16,7 +16,7 @@ SRC_DIR     = $(PWD)/src
 INC_DIR     = $(PWD)/inc
 
 # Other
-CFLAGS  += -fno-pic -march=rv64g -mcmodel=medany
+CFLAGS  += -fPIC -march=rv64g -mcmodel=medany
 CFLAGS  += -fno-asynchronous-unwind-tables -fno-builtin -fno-stack-protector
 CFLAGS  += -MMD -static -nostdlib -ffreestanding
 CXXFLAGS += $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
@@ -62,8 +62,3 @@ $(TARGET).a: $(OBJS)
 	@$(AR) rcsT $(TARGET).a $(OBJS)
 	@echo "$(COLOR_G)AR$(COLOR_NO)\t$(COLOR_G)$(patsubst $(LIB_DIR)/%, $(notdir $(ROOT)): %, $@)$(COLOR_NO)"
 	@$(OBJDUMP) -d $(TARGET).a > $(TARGET).txt
-
-clean:
-	@rm -rf $(BUILD_DIR)
-	@rm -rf $(LIB_DIR)
-	@echo "$(COLOR_R)RM$(COLOR_NO)\t$(COLOR_R)$(notdir $(ROOT)): build$(COLOR_NO)"

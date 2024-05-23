@@ -19,41 +19,44 @@ SECTIONS
     stext = .;
     .text : {
         *(.text.entry)
-        *(.text .text.*)
+        *(.text*)
     } : text
     etext = .;
 
 # rodata
     srodata = .;
     .rodata : {
-        *(.rodata .rodata.*)
-        *(.srodata .srodata.*)
+        *(.rodata*)
+        *(.srodata*)
     } : rodata
     erodata = .;
 
 # data
     sdata = .;
     .data : {
-        *(.data .data.*)
+        *(.data*)
+        *(.sdata*)
     } : data
     edata = .;
 
 # bss
     sbss = .;
     .bss : {
-        *(.bss .bss.*)
-        *(.sbss .sbss.*)
-    } : data
+        *(.bss*)
+        *(.sbss*)
+    }
     ebss = .;
 
 # stack
     sstack = .;
     .stack : {
-        *(.kernel_stack)
+        . += 4096 * 16;
     } : stack
     estack = .;
     PROVIDE(_estack = .);
-    
+    _end = .;
+    PROVIDE(_end = .);
+
     ekernel = .;
 
     /DISCARD/ : {

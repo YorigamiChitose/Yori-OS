@@ -19,34 +19,38 @@ SECTIONS
     stext = .;
     .text : {
         *(.text.entry)
-        *(.text .text.*)
+        *(.text*)
     } : text
     etext = .;
 
 # rodata
     srodata = .;
     .rodata : {
-        *(.rodata .rodata.*)
-        *(.srodata .srodata.*)
+        *(.rodata*)
+        *(.srodata*)
     } : rodata
     erodata = .;
 
 # data
     sdata = .;
     .data : {
-        *(.data .data.*)
+        *(.data*)
+        *(.sdata*)
     } : data
     edata = .;
 
 # bss
     sbss = .;
     .bss : {
-        *(.bss .bss.*)
-        *(.sbss .sbss.*)
-    } : data
+        *(.bss*)
+        *(.sbss*)
+    }
     ebss = .;
-    euser = .;
+
     _end = .;
+    PROVIDE(_end = .);
+
+    euser = .;
 
     /DISCARD/ : {
         *(.eh_frame)

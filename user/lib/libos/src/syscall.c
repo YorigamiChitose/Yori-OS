@@ -113,6 +113,10 @@ int _fstat(int fd, struct stat *buf) {
   return -1;
 }
 
+int	_isatty (int fd) {
+  return -1;
+}
+
 int _stat(const char *fname, struct stat *buf) {
   assert(0);
   return -1;

@@ -1,3 +1,6 @@
 [submodule "opensbi"]
 	path = opensbi
 	url = https://github.com/riscv-software-src/opensbi.git
+[submodule "user/lib/libc/newlib-cygwin"]
+	path = user/lib/libc/newlib-cygwin
+	url = https://sourceware.org/git/newlib-cygwin.git
