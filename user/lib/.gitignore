@@ -4,4 +4,4 @@
 !/.gitignore
 !/libos/
 !/libc/
-!/Makefile
+!/lib.mk

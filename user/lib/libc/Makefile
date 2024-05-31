@@ -1,28 +1,30 @@
-ROOT = $(PWD)
+ROOT = $(YORIOS_HOME)/user/lib/libc
 
 NEWLIB_DIR = $(ROOT)/newlib-cygwin/newlib/build
 INSTALL_DIR = $(ROOT)/build
 
-install:
+build:
 	@if [ ! -d "$(INSTALL_DIR)" ]; then \
-		echo "$(COLOR_G)AR$(COLOR_NO)\t$(COLOR_G)libc: libc.a$(COLOR_NO)"; \
 		mkdir -p $(NEWLIB_DIR); \
-		cd $(NEWLIB_DIR) && ../configure --host=riscv64-unknown-elf --prefix=$(INSTALL_DIR) --disable-newlib-io-float CFLAGS='-mcmodel=medany -fPIC' && make && make install; \
-		ln -sf $(ROOT)/build/riscv64-unknown-elf/include $(ROOT)/inc; \
-		ln -sf $(ROOT)/build/riscv64-unknown-elf/lib $(ROOT)/lib; \
-		ln -sf /dev/null $(ROOT)/src; \
+		cd $(NEWLIB_DIR) && ../configure --host=riscv64-unknown-elf --prefix=$(INSTALL_DIR) --disable-newlib-io-float CFLAGS='-mcmodel=medany -fPIC' > /dev/null && make && make install > /dev/null; \
+		if [ ! -d "$(ROOT)/lib" ]; then \
+			ln -sf $(ROOT)/build/riscv64-unknown-elf/lib $(ROOT)/lib; \
+		fi; \
+		if [ ! -d "$(ROOT)/inc" ]; then \
+			ln -sf $(ROOT)/build/riscv64-unknown-elf/include $(ROOT)/inc; \
+		fi; \
+		echo "$(COLOR_G)BUILD$(COLOR_NO)\t$(COLOR_G)libc: libc.a$(COLOR_NO)"; \
 	fi
 
-KEEP ?= n
+KEEP ?= y
 
 clean:
-ifeq ('$(KEEP)', 'y')
+ifeq ('$(KEEP)', 'y') 
 	@echo "$(COLOR_R)KEEP$(COLOR_NO)\t$(COLOR_R)$(notdir $(ROOT)): build$(COLOR_NO)"
 else
-	@rm -rf $(INSTALL_DIR)
+	@rm -rf $(INSTALL_DIR) $(ROOT)/inc $(ROOT)/lib
 	@echo "$(COLOR_R)RM$(COLOR_NO)\t$(COLOR_R)$(notdir $(ROOT)): build$(COLOR_NO)"
 endif
 
-.PHONY: install
-
-include ../Makefile
+.PHONY: build
+include $(YORIOS_HOME)/user/lib/lib.mk

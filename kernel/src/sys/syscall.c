@@ -1,4 +1,5 @@
 #include "sys/syscall.h"
+#include "sbi/sbi.h"
 #include "common/log.h"
 #include <std/stdint.h>
 #include <std/stddef.h>
@@ -14,14 +15,16 @@ void trap_init(void) {
     asm volatile("csrw stvec, %0" : : "r"(_trap_ecall));
 }
 
+#define case_SYS(x, y) case x: tracef("SYSCALL: " #x "!"); y; break
+
 void syscall_handler(struct Context *ecall_info) {
-    // infof("SYSCALL: %d!", ecall_info->SYS_TYPE);
     switch (ecall_info->SYS_TYPE) {
-    case SYS_yield: debugf("Get yield\n"); break;
-    case SYS_exit: sbi_system_reset(SRST_T_SHUTDOWN, !!ecall_info->ARG0); break;
-    case SYS_write: ecall_info->RET = 1; printf("%c", *(char *)(ecall_info->ARG1)); break;
-    case SYS_brk: ecall_info->RET = 0; break;
-    default: sbi_system_reset(SRST_T_SHUTDOWN, SRST_R_SYSTEM_FAILURE);
+    case_SYS(SYS_exit,  ecall_info->RET = 0; sbi_system_reset(SRST_T_SHUTDOWN, !!ecall_info->ARG0));
+    case_SYS(SYS_yield, ecall_info->RET = 0; infof("Yield!"));
+    case_SYS(SYS_write, ecall_info->RET = 1; sbi_console_putchar(*(char *)(ecall_info->ARG1)));
+    case_SYS(SYS_brk,   ecall_info->RET = 0);
+    case_SYS(SYS_close, ecall_info->RET = 0);
+    default: errorf("UNKNOWN SYSCALL: %d!", ecall_info->SYS_TYPE); sbi_system_reset(SRST_T_SHUTDOWN, SRST_R_SYSTEM_FAILURE);
     }
 }
 

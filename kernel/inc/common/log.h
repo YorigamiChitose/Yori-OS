@@ -4,7 +4,7 @@
 #include <common/printf.h>
 #include <sbi/sbi.h>
 
-#define LOG_LEVEL_TRACE
+#define LOG_LEVEL_DEBUG
 
 #if defined(LOG_LEVEL_ERROR)
 

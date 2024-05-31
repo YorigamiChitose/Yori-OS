@@ -8,11 +8,11 @@ OBJDUMP     = $(TOOLPREFIX)objdump
 GDB         = gdb-multiarch
 
 # Path
-ROOT      = $(PWD)
+ROOT      = $(YORIOS_HOME)/kernel
 BUILD_DIR = $(ROOT)/build
 TEMP_DIR  = $(BUILD_DIR)/temp
-SRC_DIR   = $(PWD)/src
-INC_DIR   = $(PWD)/inc
+SRC_DIR   = $(ROOT)/src
+INC_DIR   = $(ROOT)/inc
 
 # Other
 CFLAGS      += -Wall -Werror -no-pie -ggdb
@@ -58,4 +58,4 @@ $(TARGET).elf: $(OBJS)
 
 clean:
 	@rm -rf $(BUILD_DIR)
-	@echo "$(COLOR_R)RM$(COLOR_NO)\t$(COLOR_R)kernel: build$(COLOR_NO)"
+	@echo "$(COLOR_R)RM$(COLOR_NO)\t$(COLOR_R)kernel: elf$(COLOR_NO)"

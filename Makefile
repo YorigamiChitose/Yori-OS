@@ -1,6 +1,6 @@
-OPENSBI = opensbi/build/platform/generic/firmware/fw_jump
-KERNEL = kernel/build/kernel
-USER = user/build/user
+OPENSBI = $(YORIOS_HOME)/opensbi/build/platform/generic/firmware/fw_jump
+KERNEL = $(YORIOS_HOME)/kernel/build/kernel
+USER = $(YORIOS_HOME)/user/app/hello/build/hello
 QEMU = qemu-system-riscv64
 QEMU_ARG = \
 	-machine virt \
@@ -8,7 +8,7 @@ QEMU_ARG = \
 	-kernel $(KERNEL).bin \
 	-device loader,file=$(USER).bin,addr=0x80400000 \
 	-nographic
-MAKEFLAGS += --no-print-directory
+MAKEFLAGS += -s
 
 
 $(OPENSBI).bin:
@@ -22,7 +22,7 @@ $(USER).bin:
 clean:
 # @cd opensbi && make clean
 	@cd kernel && make clean
-	@cd user && make clean
+	@cd user && make clean-all
 
 run: $(OPENSBI).bin $(KERNEL).bin $(USER).bin
 	@$(QEMU) $(QEMU_ARG)

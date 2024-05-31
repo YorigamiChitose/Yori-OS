@@ -1,7 +1,8 @@
 /*/
 /*
 !/.gitignore
-!/src/
+!/app/
 !/inc/
 !/lib/
+!/other/
 !/Makefile
